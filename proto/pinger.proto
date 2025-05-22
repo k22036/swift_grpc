@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option go_package = "swift_grpc/server/proto";
+
+package pinger;
+
+service Pinger {
+  rpc Ping(Empty) returns (Pong) {}
+}
+
+message Empty {}
+
+message Pong {
+  string text = 1;
+}
