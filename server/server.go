@@ -30,5 +30,6 @@ func (s *server) Ping(ctx context.Context, req *pinger.Empty) (*pinger.Pong, err
 	pong := &pinger.Pong{
 		Text: "pong",
 	}
+	println("Received ping request")
 	return pong, nil
 }
