@@ -40,3 +40,10 @@ gen_client_grpc:
 	$(PROTO_GEN_CLIENT_GRPC)
 gen_client_proto: gen_client_pb gen_client_grpc
 
+# run server
+run_server:
+	cd server && go run server.go
+
+# send ping
+send_ping:
+	cd server && go run cmd/command.go
