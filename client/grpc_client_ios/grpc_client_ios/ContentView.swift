@@ -30,6 +30,7 @@ struct ContentView: View {
                     ) { client in
                         print("Connected to gRPC server.")
                         let pinger = Pinger_Pinger.Client(wrapping: client)
+                        print("Sending ping request...")
                         let pong = try await pinger.ping(request: .init(message: Pinger_Empty()))
                         print(pong)
                     }
