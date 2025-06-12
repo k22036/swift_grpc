@@ -101,6 +101,102 @@ func (x *Pong) GetText() string {
 	return ""
 }
 
+type VerificationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Number        int32                  `protobuf:"varint,1,opt,name=number,proto3" json:"number,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerificationRequest) Reset() {
+	*x = VerificationRequest{}
+	mi := &file_pinger_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerificationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerificationRequest) ProtoMessage() {}
+
+func (x *VerificationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pinger_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerificationRequest.ProtoReflect.Descriptor instead.
+func (*VerificationRequest) Descriptor() ([]byte, []int) {
+	return file_pinger_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *VerificationRequest) GetNumber() int32 {
+	if x != nil {
+		return x.Number
+	}
+	return 0
+}
+
+type VerificationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IsAck         bool                   `protobuf:"varint,1,opt,name=is_ack,json=isAck,proto3" json:"is_ack,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerificationResponse) Reset() {
+	*x = VerificationResponse{}
+	mi := &file_pinger_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerificationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerificationResponse) ProtoMessage() {}
+
+func (x *VerificationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pinger_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerificationResponse.ProtoReflect.Descriptor instead.
+func (*VerificationResponse) Descriptor() ([]byte, []int) {
+	return file_pinger_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *VerificationResponse) GetIsAck() bool {
+	if x != nil {
+		return x.IsAck
+	}
+	return false
+}
+
+func (x *VerificationResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_pinger_proto protoreflect.FileDescriptor
 
 const file_pinger_proto_rawDesc = "" +
@@ -108,9 +204,16 @@ const file_pinger_proto_rawDesc = "" +
 	"\fpinger.proto\x12\x06pinger\"\a\n" +
 	"\x05Empty\"\x1a\n" +
 	"\x04Pong\x12\x12\n" +
-	"\x04text\x18\x01 \x01(\tR\x04text2/\n" +
+	"\x04text\x18\x01 \x01(\tR\x04text\"-\n" +
+	"\x13VerificationRequest\x12\x16\n" +
+	"\x06number\x18\x01 \x01(\x05R\x06number\"G\n" +
+	"\x14VerificationResponse\x12\x15\n" +
+	"\x06is_ack\x18\x01 \x01(\bR\x05isAck\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2/\n" +
 	"\x06Pinger\x12%\n" +
-	"\x04Ping\x12\r.pinger.Empty\x1a\f.pinger.Pong\"\x00B\x19Z\x17swift_grpc/server/protob\x06proto3"
+	"\x04Ping\x12\r.pinger.Empty\x1a\f.pinger.Pong\"\x002Y\n" +
+	"\fVerification\x12I\n" +
+	"\x06Verify\x12\x1b.pinger.VerificationRequest\x1a\x1c.pinger.VerificationResponse\"\x00(\x010\x01B\x19Z\x17swift_grpc/server/protob\x06proto3"
 
 var (
 	file_pinger_proto_rawDescOnce sync.Once
@@ -124,16 +227,20 @@ func file_pinger_proto_rawDescGZIP() []byte {
 	return file_pinger_proto_rawDescData
 }
 
-var file_pinger_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_pinger_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_pinger_proto_goTypes = []any{
-	(*Empty)(nil), // 0: pinger.Empty
-	(*Pong)(nil),  // 1: pinger.Pong
+	(*Empty)(nil),                // 0: pinger.Empty
+	(*Pong)(nil),                 // 1: pinger.Pong
+	(*VerificationRequest)(nil),  // 2: pinger.VerificationRequest
+	(*VerificationResponse)(nil), // 3: pinger.VerificationResponse
 }
 var file_pinger_proto_depIdxs = []int32{
 	0, // 0: pinger.Pinger.Ping:input_type -> pinger.Empty
-	1, // 1: pinger.Pinger.Ping:output_type -> pinger.Pong
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: pinger.Verification.Verify:input_type -> pinger.VerificationRequest
+	1, // 2: pinger.Pinger.Ping:output_type -> pinger.Pong
+	3, // 3: pinger.Verification.Verify:output_type -> pinger.VerificationResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -150,9 +257,9 @@ func file_pinger_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pinger_proto_rawDesc), len(file_pinger_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
 		GoTypes:           file_pinger_proto_goTypes,
 		DependencyIndexes: file_pinger_proto_depIdxs,

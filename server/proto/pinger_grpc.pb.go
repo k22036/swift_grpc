@@ -119,3 +119,99 @@ var Pinger_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "pinger.proto",
 }
+
+const (
+	Verification_Verify_FullMethodName = "/pinger.Verification/Verify"
+)
+
+// VerificationClient is the client API for Verification service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type VerificationClient interface {
+	Verify(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[VerificationRequest, VerificationResponse], error)
+}
+
+type verificationClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewVerificationClient(cc grpc.ClientConnInterface) VerificationClient {
+	return &verificationClient{cc}
+}
+
+func (c *verificationClient) Verify(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[VerificationRequest, VerificationResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &Verification_ServiceDesc.Streams[0], Verification_Verify_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[VerificationRequest, VerificationResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Verification_VerifyClient = grpc.BidiStreamingClient[VerificationRequest, VerificationResponse]
+
+// VerificationServer is the server API for Verification service.
+// All implementations must embed UnimplementedVerificationServer
+// for forward compatibility.
+type VerificationServer interface {
+	Verify(grpc.BidiStreamingServer[VerificationRequest, VerificationResponse]) error
+	mustEmbedUnimplementedVerificationServer()
+}
+
+// UnimplementedVerificationServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedVerificationServer struct{}
+
+func (UnimplementedVerificationServer) Verify(grpc.BidiStreamingServer[VerificationRequest, VerificationResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method Verify not implemented")
+}
+func (UnimplementedVerificationServer) mustEmbedUnimplementedVerificationServer() {}
+func (UnimplementedVerificationServer) testEmbeddedByValue()                      {}
+
+// UnsafeVerificationServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to VerificationServer will
+// result in compilation errors.
+type UnsafeVerificationServer interface {
+	mustEmbedUnimplementedVerificationServer()
+}
+
+func RegisterVerificationServer(s grpc.ServiceRegistrar, srv VerificationServer) {
+	// If the following call pancis, it indicates UnimplementedVerificationServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&Verification_ServiceDesc, srv)
+}
+
+func _Verification_Verify_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(VerificationServer).Verify(&grpc.GenericServerStream[VerificationRequest, VerificationResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Verification_VerifyServer = grpc.BidiStreamingServer[VerificationRequest, VerificationResponse]
+
+// Verification_ServiceDesc is the grpc.ServiceDesc for Verification service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var Verification_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "pinger.Verification",
+	HandlerType: (*VerificationServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "Verify",
+			Handler:       _Verification_Verify_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
+	Metadata: "pinger.proto",
+}
