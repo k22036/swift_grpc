@@ -215,3 +215,111 @@ var Verification_ServiceDesc = grpc.ServiceDesc{
 	},
 	Metadata: "pinger.proto",
 }
+
+const (
+	LatencyTest_MeasureLatency_FullMethodName = "/pinger.LatencyTest/MeasureLatency"
+)
+
+// LatencyTestClient is the client API for LatencyTest service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// Service for latency testing
+type LatencyTestClient interface {
+	// Measures latency by sending a request and receiving a response
+	MeasureLatency(ctx context.Context, in *LatencyRequest, opts ...grpc.CallOption) (*LatencyResponse, error)
+}
+
+type latencyTestClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewLatencyTestClient(cc grpc.ClientConnInterface) LatencyTestClient {
+	return &latencyTestClient{cc}
+}
+
+func (c *latencyTestClient) MeasureLatency(ctx context.Context, in *LatencyRequest, opts ...grpc.CallOption) (*LatencyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LatencyResponse)
+	err := c.cc.Invoke(ctx, LatencyTest_MeasureLatency_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// LatencyTestServer is the server API for LatencyTest service.
+// All implementations must embed UnimplementedLatencyTestServer
+// for forward compatibility.
+//
+// Service for latency testing
+type LatencyTestServer interface {
+	// Measures latency by sending a request and receiving a response
+	MeasureLatency(context.Context, *LatencyRequest) (*LatencyResponse, error)
+	mustEmbedUnimplementedLatencyTestServer()
+}
+
+// UnimplementedLatencyTestServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedLatencyTestServer struct{}
+
+func (UnimplementedLatencyTestServer) MeasureLatency(context.Context, *LatencyRequest) (*LatencyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MeasureLatency not implemented")
+}
+func (UnimplementedLatencyTestServer) mustEmbedUnimplementedLatencyTestServer() {}
+func (UnimplementedLatencyTestServer) testEmbeddedByValue()                     {}
+
+// UnsafeLatencyTestServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to LatencyTestServer will
+// result in compilation errors.
+type UnsafeLatencyTestServer interface {
+	mustEmbedUnimplementedLatencyTestServer()
+}
+
+func RegisterLatencyTestServer(s grpc.ServiceRegistrar, srv LatencyTestServer) {
+	// If the following call pancis, it indicates UnimplementedLatencyTestServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&LatencyTest_ServiceDesc, srv)
+}
+
+func _LatencyTest_MeasureLatency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LatencyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LatencyTestServer).MeasureLatency(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LatencyTest_MeasureLatency_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LatencyTestServer).MeasureLatency(ctx, req.(*LatencyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// LatencyTest_ServiceDesc is the grpc.ServiceDesc for LatencyTest service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var LatencyTest_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "pinger.LatencyTest",
+	HandlerType: (*LatencyTestServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "MeasureLatency",
+			Handler:    _LatencyTest_MeasureLatency_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pinger.proto",
+}

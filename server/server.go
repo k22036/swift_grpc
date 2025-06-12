@@ -23,6 +23,7 @@ func main() {
 	grpcSrv := grpc.NewServer()
 	pinger.RegisterPingerServer(grpcSrv, &server{})
 	pinger.RegisterVerificationServer(grpcSrv, &server{})
+	pinger.RegisterLatencyTestServer(grpcSrv, &server{})
 	log.Printf("Pinger service is running!")
 	grpcSrv.Serve(listener)
 }
@@ -30,6 +31,7 @@ func main() {
 type server struct {
 	pinger.UnimplementedPingerServer
 	pinger.UnimplementedVerificationServer
+	pinger.UnimplementedLatencyTestServer
 }
 
 func (s *server) Ping(ctx context.Context, req *pinger.Empty) (*pinger.Pong, error) {
@@ -91,4 +93,17 @@ func (s *server) Verify(stream pinger.Verification_VerifyServer) error {
 	log.Println("Verify stream completed")
 
 	return nil
+}
+
+// MeasureLatency implements the LatencyTestServer interface.
+func (s *server) MeasureLatency(ctx context.Context, req *pinger.LatencyRequest) (*pinger.LatencyResponse, error) {
+	log.Printf("Received MeasureLatency request with client timestamp: %d", req.GetClientSentTimestampNs())
+
+	resp := &pinger.LatencyResponse{
+		ClientSentTimestampNs: req.GetClientSentTimestampNs(),
+		Payload:               req.GetPayload(),
+	}
+
+	log.Printf("Sending MeasureLatency response")
+	return resp, nil
 }

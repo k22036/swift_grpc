@@ -197,6 +197,113 @@ func (x *VerificationResponse) GetMessage() string {
 	return ""
 }
 
+// Request message for latency testing
+type LatencyRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Timestamp from the client (e.g., nanoseconds since epoch)
+	ClientSentTimestampNs int64  `protobuf:"varint,1,opt,name=client_sent_timestamp_ns,json=clientSentTimestampNs,proto3" json:"client_sent_timestamp_ns,omitempty"`
+	Payload               []byte `protobuf:"bytes,2,opt,name=payload,proto3" json:"payload,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *LatencyRequest) Reset() {
+	*x = LatencyRequest{}
+	mi := &file_pinger_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LatencyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LatencyRequest) ProtoMessage() {}
+
+func (x *LatencyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pinger_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LatencyRequest.ProtoReflect.Descriptor instead.
+func (*LatencyRequest) Descriptor() ([]byte, []int) {
+	return file_pinger_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *LatencyRequest) GetClientSentTimestampNs() int64 {
+	if x != nil {
+		return x.ClientSentTimestampNs
+	}
+	return 0
+}
+
+func (x *LatencyRequest) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+// Response message for latency testing
+type LatencyResponse struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	ClientSentTimestampNs int64                  `protobuf:"varint,1,opt,name=client_sent_timestamp_ns,json=clientSentTimestampNs,proto3" json:"client_sent_timestamp_ns,omitempty"`
+	Payload               []byte                 `protobuf:"bytes,4,opt,name=payload,proto3" json:"payload,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *LatencyResponse) Reset() {
+	*x = LatencyResponse{}
+	mi := &file_pinger_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LatencyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LatencyResponse) ProtoMessage() {}
+
+func (x *LatencyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pinger_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LatencyResponse.ProtoReflect.Descriptor instead.
+func (*LatencyResponse) Descriptor() ([]byte, []int) {
+	return file_pinger_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *LatencyResponse) GetClientSentTimestampNs() int64 {
+	if x != nil {
+		return x.ClientSentTimestampNs
+	}
+	return 0
+}
+
+func (x *LatencyResponse) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
 var File_pinger_proto protoreflect.FileDescriptor
 
 const file_pinger_proto_rawDesc = "" +
@@ -209,11 +316,19 @@ const file_pinger_proto_rawDesc = "" +
 	"\x06number\x18\x01 \x01(\x05R\x06number\"G\n" +
 	"\x14VerificationResponse\x12\x15\n" +
 	"\x06is_ack\x18\x01 \x01(\bR\x05isAck\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage2/\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"c\n" +
+	"\x0eLatencyRequest\x127\n" +
+	"\x18client_sent_timestamp_ns\x18\x01 \x01(\x03R\x15clientSentTimestampNs\x12\x18\n" +
+	"\apayload\x18\x02 \x01(\fR\apayload\"d\n" +
+	"\x0fLatencyResponse\x127\n" +
+	"\x18client_sent_timestamp_ns\x18\x01 \x01(\x03R\x15clientSentTimestampNs\x12\x18\n" +
+	"\apayload\x18\x04 \x01(\fR\apayload2/\n" +
 	"\x06Pinger\x12%\n" +
 	"\x04Ping\x12\r.pinger.Empty\x1a\f.pinger.Pong\"\x002Y\n" +
 	"\fVerification\x12I\n" +
-	"\x06Verify\x12\x1b.pinger.VerificationRequest\x1a\x1c.pinger.VerificationResponse\"\x00(\x010\x01B\x19Z\x17swift_grpc/server/protob\x06proto3"
+	"\x06Verify\x12\x1b.pinger.VerificationRequest\x1a\x1c.pinger.VerificationResponse\"\x00(\x010\x012R\n" +
+	"\vLatencyTest\x12C\n" +
+	"\x0eMeasureLatency\x12\x16.pinger.LatencyRequest\x1a\x17.pinger.LatencyResponse\"\x00B\x19Z\x17swift_grpc/server/protob\x06proto3"
 
 var (
 	file_pinger_proto_rawDescOnce sync.Once
@@ -227,20 +342,24 @@ func file_pinger_proto_rawDescGZIP() []byte {
 	return file_pinger_proto_rawDescData
 }
 
-var file_pinger_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_pinger_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_pinger_proto_goTypes = []any{
 	(*Empty)(nil),                // 0: pinger.Empty
 	(*Pong)(nil),                 // 1: pinger.Pong
 	(*VerificationRequest)(nil),  // 2: pinger.VerificationRequest
 	(*VerificationResponse)(nil), // 3: pinger.VerificationResponse
+	(*LatencyRequest)(nil),       // 4: pinger.LatencyRequest
+	(*LatencyResponse)(nil),      // 5: pinger.LatencyResponse
 }
 var file_pinger_proto_depIdxs = []int32{
 	0, // 0: pinger.Pinger.Ping:input_type -> pinger.Empty
 	2, // 1: pinger.Verification.Verify:input_type -> pinger.VerificationRequest
-	1, // 2: pinger.Pinger.Ping:output_type -> pinger.Pong
-	3, // 3: pinger.Verification.Verify:output_type -> pinger.VerificationResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	4, // 2: pinger.LatencyTest.MeasureLatency:input_type -> pinger.LatencyRequest
+	1, // 3: pinger.Pinger.Ping:output_type -> pinger.Pong
+	3, // 4: pinger.Verification.Verify:output_type -> pinger.VerificationResponse
+	5, // 5: pinger.LatencyTest.MeasureLatency:output_type -> pinger.LatencyResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -257,9 +376,9 @@ func file_pinger_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pinger_proto_rawDesc), len(file_pinger_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
-			NumServices:   2,
+			NumServices:   3,
 		},
 		GoTypes:           file_pinger_proto_goTypes,
 		DependencyIndexes: file_pinger_proto_depIdxs,
