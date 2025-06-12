@@ -25,3 +25,22 @@ message VerificationResponse {
   bool is_ack = 1;
   string message = 2;
 }
+
+// Service for latency testing
+service LatencyTest {
+  // Measures latency by sending a request and receiving a response
+  rpc MeasureLatency(LatencyRequest) returns (LatencyResponse) {}
+}
+
+// Request message for latency testing
+message LatencyRequest {
+  // Timestamp from the client (e.g., nanoseconds since epoch)
+  int64 client_sent_timestamp_ns = 1;
+  bytes payload = 2;
+}
+
+// Response message for latency testing
+message LatencyResponse {
+  int64 client_sent_timestamp_ns = 1;
+  bytes payload = 4;
+}
