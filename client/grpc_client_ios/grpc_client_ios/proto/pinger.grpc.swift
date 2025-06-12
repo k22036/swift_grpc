@@ -596,3 +596,349 @@ extension Pinger_Verification.ClientProtocol {
         )
     }
 }
+
+// MARK: - pinger.LatencyTest
+
+/// Namespace containing generated types for the "pinger.LatencyTest" service.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+public enum Pinger_LatencyTest {
+    /// Service descriptor for the "pinger.LatencyTest" service.
+    public static let descriptor = GRPCCore.ServiceDescriptor(fullyQualifiedService: "pinger.LatencyTest")
+    /// Namespace for method metadata.
+    public enum Method {
+        /// Namespace for "MeasureLatency" metadata.
+        public enum MeasureLatency {
+            /// Request type for "MeasureLatency".
+            public typealias Input = Pinger_LatencyRequest
+            /// Response type for "MeasureLatency".
+            public typealias Output = Pinger_LatencyResponse
+            /// Descriptor for "MeasureLatency".
+            public static let descriptor = GRPCCore.MethodDescriptor(
+                service: GRPCCore.ServiceDescriptor(fullyQualifiedService: "pinger.LatencyTest"),
+                method: "MeasureLatency"
+            )
+        }
+        /// Descriptors for all methods in the "pinger.LatencyTest" service.
+        public static let descriptors: [GRPCCore.MethodDescriptor] = [
+            MeasureLatency.descriptor
+        ]
+    }
+}
+
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension GRPCCore.ServiceDescriptor {
+    /// Service descriptor for the "pinger.LatencyTest" service.
+    public static let pinger_LatencyTest = GRPCCore.ServiceDescriptor(fullyQualifiedService: "pinger.LatencyTest")
+}
+
+// MARK: pinger.LatencyTest (server)
+
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_LatencyTest {
+    /// Streaming variant of the service protocol for the "pinger.LatencyTest" service.
+    ///
+    /// This protocol is the lowest-level of the service protocols generated for this service
+    /// giving you the most flexibility over the implementation of your service. This comes at
+    /// the cost of more verbose and less strict APIs. Each RPC requires you to implement it in
+    /// terms of a request stream and response stream. Where only a single request or response
+    /// message is expected, you are responsible for enforcing this invariant is maintained.
+    ///
+    /// Where possible, prefer using the stricter, less-verbose ``ServiceProtocol``
+    /// or ``SimpleServiceProtocol`` instead.
+    ///
+    /// > Source IDL Documentation:
+    /// >
+    /// > Service for latency testing
+    public protocol StreamingServiceProtocol: GRPCCore.RegistrableRPCService {
+        /// Handle the "MeasureLatency" method.
+        ///
+        /// > Source IDL Documentation:
+        /// >
+        /// > Measures latency by sending a request and receiving a response
+        ///
+        /// - Parameters:
+        ///   - request: A streaming request of `Pinger_LatencyRequest` messages.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A streaming response of `Pinger_LatencyResponse` messages.
+        func measureLatency(
+            request: GRPCCore.StreamingServerRequest<Pinger_LatencyRequest>,
+            context: GRPCCore.ServerContext
+        ) async throws -> GRPCCore.StreamingServerResponse<Pinger_LatencyResponse>
+    }
+
+    /// Service protocol for the "pinger.LatencyTest" service.
+    ///
+    /// This protocol is higher level than ``StreamingServiceProtocol`` but lower level than
+    /// the ``SimpleServiceProtocol``, it provides access to request and response metadata and
+    /// trailing response metadata. If you don't need these then consider using
+    /// the ``SimpleServiceProtocol``. If you need fine grained control over your RPCs then
+    /// use ``StreamingServiceProtocol``.
+    ///
+    /// > Source IDL Documentation:
+    /// >
+    /// > Service for latency testing
+    public protocol ServiceProtocol: Pinger_LatencyTest.StreamingServiceProtocol {
+        /// Handle the "MeasureLatency" method.
+        ///
+        /// > Source IDL Documentation:
+        /// >
+        /// > Measures latency by sending a request and receiving a response
+        ///
+        /// - Parameters:
+        ///   - request: A request containing a single `Pinger_LatencyRequest` message.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A response containing a single `Pinger_LatencyResponse` message.
+        func measureLatency(
+            request: GRPCCore.ServerRequest<Pinger_LatencyRequest>,
+            context: GRPCCore.ServerContext
+        ) async throws -> GRPCCore.ServerResponse<Pinger_LatencyResponse>
+    }
+
+    /// Simple service protocol for the "pinger.LatencyTest" service.
+    ///
+    /// This is the highest level protocol for the service. The API is the easiest to use but
+    /// doesn't provide access to request or response metadata. If you need access to these
+    /// then use ``ServiceProtocol`` instead.
+    ///
+    /// > Source IDL Documentation:
+    /// >
+    /// > Service for latency testing
+    public protocol SimpleServiceProtocol: Pinger_LatencyTest.ServiceProtocol {
+        /// Handle the "MeasureLatency" method.
+        ///
+        /// > Source IDL Documentation:
+        /// >
+        /// > Measures latency by sending a request and receiving a response
+        ///
+        /// - Parameters:
+        ///   - request: A `Pinger_LatencyRequest` message.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A `Pinger_LatencyResponse` to respond with.
+        func measureLatency(
+            request: Pinger_LatencyRequest,
+            context: GRPCCore.ServerContext
+        ) async throws -> Pinger_LatencyResponse
+    }
+}
+
+// Default implementation of 'registerMethods(with:)'.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_LatencyTest.StreamingServiceProtocol {
+    public func registerMethods<Transport>(with router: inout GRPCCore.RPCRouter<Transport>) where Transport: GRPCCore.ServerTransport {
+        router.registerHandler(
+            forMethod: Pinger_LatencyTest.Method.MeasureLatency.descriptor,
+            deserializer: GRPCProtobuf.ProtobufDeserializer<Pinger_LatencyRequest>(),
+            serializer: GRPCProtobuf.ProtobufSerializer<Pinger_LatencyResponse>(),
+            handler: { request, context in
+                try await self.measureLatency(
+                    request: request,
+                    context: context
+                )
+            }
+        )
+    }
+}
+
+// Default implementation of streaming methods from 'StreamingServiceProtocol'.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_LatencyTest.ServiceProtocol {
+    public func measureLatency(
+        request: GRPCCore.StreamingServerRequest<Pinger_LatencyRequest>,
+        context: GRPCCore.ServerContext
+    ) async throws -> GRPCCore.StreamingServerResponse<Pinger_LatencyResponse> {
+        let response = try await self.measureLatency(
+            request: GRPCCore.ServerRequest(stream: request),
+            context: context
+        )
+        return GRPCCore.StreamingServerResponse(single: response)
+    }
+}
+
+// Default implementation of methods from 'ServiceProtocol'.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_LatencyTest.SimpleServiceProtocol {
+    public func measureLatency(
+        request: GRPCCore.ServerRequest<Pinger_LatencyRequest>,
+        context: GRPCCore.ServerContext
+    ) async throws -> GRPCCore.ServerResponse<Pinger_LatencyResponse> {
+        return GRPCCore.ServerResponse<Pinger_LatencyResponse>(
+            message: try await self.measureLatency(
+                request: request.message,
+                context: context
+            ),
+            metadata: [:]
+        )
+    }
+}
+
+// MARK: pinger.LatencyTest (client)
+
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_LatencyTest {
+    /// Generated client protocol for the "pinger.LatencyTest" service.
+    ///
+    /// You don't need to implement this protocol directly, use the generated
+    /// implementation, ``Client``.
+    ///
+    /// > Source IDL Documentation:
+    /// >
+    /// > Service for latency testing
+    public protocol ClientProtocol: Sendable {
+        /// Call the "MeasureLatency" method.
+        ///
+        /// > Source IDL Documentation:
+        /// >
+        /// > Measures latency by sending a request and receiving a response
+        ///
+        /// - Parameters:
+        ///   - request: A request containing a single `Pinger_LatencyRequest` message.
+        ///   - serializer: A serializer for `Pinger_LatencyRequest` messages.
+        ///   - deserializer: A deserializer for `Pinger_LatencyResponse` messages.
+        ///   - options: Options to apply to this RPC.
+        ///   - handleResponse: A closure which handles the response, the result of which is
+        ///       returned to the caller. Returning from the closure will cancel the RPC if it
+        ///       hasn't already finished.
+        /// - Returns: The result of `handleResponse`.
+        func measureLatency<Result>(
+            request: GRPCCore.ClientRequest<Pinger_LatencyRequest>,
+            serializer: some GRPCCore.MessageSerializer<Pinger_LatencyRequest>,
+            deserializer: some GRPCCore.MessageDeserializer<Pinger_LatencyResponse>,
+            options: GRPCCore.CallOptions,
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Pinger_LatencyResponse>) async throws -> Result
+        ) async throws -> Result where Result: Sendable
+    }
+
+    /// Generated client for the "pinger.LatencyTest" service.
+    ///
+    /// The ``Client`` provides an implementation of ``ClientProtocol`` which wraps
+    /// a `GRPCCore.GRPCCClient`. The underlying `GRPCClient` provides the long-lived
+    /// means of communication with the remote peer.
+    ///
+    /// > Source IDL Documentation:
+    /// >
+    /// > Service for latency testing
+    public struct Client<Transport>: ClientProtocol where Transport: GRPCCore.ClientTransport {
+        private let client: GRPCCore.GRPCClient<Transport>
+
+        /// Creates a new client wrapping the provided `GRPCCore.GRPCClient`.
+        ///
+        /// - Parameters:
+        ///   - client: A `GRPCCore.GRPCClient` providing a communication channel to the service.
+        public init(wrapping client: GRPCCore.GRPCClient<Transport>) {
+            self.client = client
+        }
+
+        /// Call the "MeasureLatency" method.
+        ///
+        /// > Source IDL Documentation:
+        /// >
+        /// > Measures latency by sending a request and receiving a response
+        ///
+        /// - Parameters:
+        ///   - request: A request containing a single `Pinger_LatencyRequest` message.
+        ///   - serializer: A serializer for `Pinger_LatencyRequest` messages.
+        ///   - deserializer: A deserializer for `Pinger_LatencyResponse` messages.
+        ///   - options: Options to apply to this RPC.
+        ///   - handleResponse: A closure which handles the response, the result of which is
+        ///       returned to the caller. Returning from the closure will cancel the RPC if it
+        ///       hasn't already finished.
+        /// - Returns: The result of `handleResponse`.
+        public func measureLatency<Result>(
+            request: GRPCCore.ClientRequest<Pinger_LatencyRequest>,
+            serializer: some GRPCCore.MessageSerializer<Pinger_LatencyRequest>,
+            deserializer: some GRPCCore.MessageDeserializer<Pinger_LatencyResponse>,
+            options: GRPCCore.CallOptions = .defaults,
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Pinger_LatencyResponse>) async throws -> Result = { response in
+                try response.message
+            }
+        ) async throws -> Result where Result: Sendable {
+            try await self.client.unary(
+                request: request,
+                descriptor: Pinger_LatencyTest.Method.MeasureLatency.descriptor,
+                serializer: serializer,
+                deserializer: deserializer,
+                options: options,
+                onResponse: handleResponse
+            )
+        }
+    }
+}
+
+// Helpers providing default arguments to 'ClientProtocol' methods.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_LatencyTest.ClientProtocol {
+    /// Call the "MeasureLatency" method.
+    ///
+    /// > Source IDL Documentation:
+    /// >
+    /// > Measures latency by sending a request and receiving a response
+    ///
+    /// - Parameters:
+    ///   - request: A request containing a single `Pinger_LatencyRequest` message.
+    ///   - options: Options to apply to this RPC.
+    ///   - handleResponse: A closure which handles the response, the result of which is
+    ///       returned to the caller. Returning from the closure will cancel the RPC if it
+    ///       hasn't already finished.
+    /// - Returns: The result of `handleResponse`.
+    public func measureLatency<Result>(
+        request: GRPCCore.ClientRequest<Pinger_LatencyRequest>,
+        options: GRPCCore.CallOptions = .defaults,
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Pinger_LatencyResponse>) async throws -> Result = { response in
+            try response.message
+        }
+    ) async throws -> Result where Result: Sendable {
+        try await self.measureLatency(
+            request: request,
+            serializer: GRPCProtobuf.ProtobufSerializer<Pinger_LatencyRequest>(),
+            deserializer: GRPCProtobuf.ProtobufDeserializer<Pinger_LatencyResponse>(),
+            options: options,
+            onResponse: handleResponse
+        )
+    }
+}
+
+// Helpers providing sugared APIs for 'ClientProtocol' methods.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_LatencyTest.ClientProtocol {
+    /// Call the "MeasureLatency" method.
+    ///
+    /// > Source IDL Documentation:
+    /// >
+    /// > Measures latency by sending a request and receiving a response
+    ///
+    /// - Parameters:
+    ///   - message: request message to send.
+    ///   - metadata: Additional metadata to send, defaults to empty.
+    ///   - options: Options to apply to this RPC, defaults to `.defaults`.
+    ///   - handleResponse: A closure which handles the response, the result of which is
+    ///       returned to the caller. Returning from the closure will cancel the RPC if it
+    ///       hasn't already finished.
+    /// - Returns: The result of `handleResponse`.
+    public func measureLatency<Result>(
+        _ message: Pinger_LatencyRequest,
+        metadata: GRPCCore.Metadata = [:],
+        options: GRPCCore.CallOptions = .defaults,
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.ClientResponse<Pinger_LatencyResponse>) async throws -> Result = { response in
+            try response.message
+        }
+    ) async throws -> Result where Result: Sendable {
+        let request = GRPCCore.ClientRequest<Pinger_LatencyRequest>(
+            message: message,
+            metadata: metadata
+        )
+        return try await self.measureLatency(
+            request: request,
+            options: options,
+            onResponse: handleResponse
+        )
+    }
+}
