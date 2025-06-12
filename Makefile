@@ -40,6 +40,9 @@ gen_client_grpc:
 	$(PROTO_GEN_CLIENT_GRPC)
 gen_client_proto: gen_client_pb gen_client_grpc
 
+# generate all protos
+gen_all_proto: gen_server_proto gen_client_proto
+
 # run server
 run_server:
 	cd server && go run server.go

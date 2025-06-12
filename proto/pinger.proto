@@ -8,8 +8,20 @@ service Pinger {
   rpc Ping(Empty) returns (Pong) {}
 }
 
+service Verification {
+  rpc Verify(stream VerificationRequest) returns (stream VerificationResponse) {}
+}
+
 message Empty {}
 
 message Pong {
   string text = 1;
+}
+
+message VerificationRequest {
+  int32 number = 1;
+}
+message VerificationResponse {
+  bool is_ack = 1;
+  string message = 2;
 }
