@@ -24,15 +24,28 @@ struct ContentView: View {
                 do {
                     try await withGRPCClient(
                         transport: .http2NIOPosix(
-                            target: .dns(host: "localhost", port: 5300),
+                            target: .dns(host: "10.14.2.162", port: 5300),
                             transportSecurity: .plaintext
                         )
                     ) { client in
                         print("Connected to gRPC server.")
-                        let pinger = Pinger_Pinger.Client(wrapping: client)
-                        print("Sending ping request...")
-                        let pong = try await pinger.ping(request: .init(message: Pinger_Empty()))
-                        print(pong)
+                        let verification = Pinger_Verification.Client(wrapping: client)
+                        print("Sending verification stream...")
+                        try await verification.verify(requestProducer: { writer in
+                            for n in 1...11 {
+                                var req = Pinger_VerificationRequest()
+                                req.number = Int32(n)
+                                print("Send: \(n)")
+                                try await writer.write(req)
+                                try await Task.sleep(nanoseconds: 60 * 1_000_000_000) // 1分待つ
+                            }
+                        }, onResponse: { responseStream in
+                            // AsyncSequenceに変換してイテレート
+                            for try await response in responseStream.messages {
+                                print("Received: isAck=\(response.isAck), message=\(response.message)")
+                            }
+                        })
+                        print("Verification stream finished.")
                     }
                 } catch {
                     print("Failed to connect to gRPC server: \(error)")

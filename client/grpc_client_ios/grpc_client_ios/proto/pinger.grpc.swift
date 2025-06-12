@@ -308,3 +308,291 @@ extension Pinger_Pinger.ClientProtocol {
         )
     }
 }
+
+// MARK: - pinger.Verification
+
+/// Namespace containing generated types for the "pinger.Verification" service.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+public enum Pinger_Verification {
+    /// Service descriptor for the "pinger.Verification" service.
+    public static let descriptor = GRPCCore.ServiceDescriptor(fullyQualifiedService: "pinger.Verification")
+    /// Namespace for method metadata.
+    public enum Method {
+        /// Namespace for "Verify" metadata.
+        public enum Verify {
+            /// Request type for "Verify".
+            public typealias Input = Pinger_VerificationRequest
+            /// Response type for "Verify".
+            public typealias Output = Pinger_VerificationResponse
+            /// Descriptor for "Verify".
+            public static let descriptor = GRPCCore.MethodDescriptor(
+                service: GRPCCore.ServiceDescriptor(fullyQualifiedService: "pinger.Verification"),
+                method: "Verify"
+            )
+        }
+        /// Descriptors for all methods in the "pinger.Verification" service.
+        public static let descriptors: [GRPCCore.MethodDescriptor] = [
+            Verify.descriptor
+        ]
+    }
+}
+
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension GRPCCore.ServiceDescriptor {
+    /// Service descriptor for the "pinger.Verification" service.
+    public static let pinger_Verification = GRPCCore.ServiceDescriptor(fullyQualifiedService: "pinger.Verification")
+}
+
+// MARK: pinger.Verification (server)
+
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_Verification {
+    /// Streaming variant of the service protocol for the "pinger.Verification" service.
+    ///
+    /// This protocol is the lowest-level of the service protocols generated for this service
+    /// giving you the most flexibility over the implementation of your service. This comes at
+    /// the cost of more verbose and less strict APIs. Each RPC requires you to implement it in
+    /// terms of a request stream and response stream. Where only a single request or response
+    /// message is expected, you are responsible for enforcing this invariant is maintained.
+    ///
+    /// Where possible, prefer using the stricter, less-verbose ``ServiceProtocol``
+    /// or ``SimpleServiceProtocol`` instead.
+    public protocol StreamingServiceProtocol: GRPCCore.RegistrableRPCService {
+        /// Handle the "Verify" method.
+        ///
+        /// - Parameters:
+        ///   - request: A streaming request of `Pinger_VerificationRequest` messages.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A streaming response of `Pinger_VerificationResponse` messages.
+        func verify(
+            request: GRPCCore.StreamingServerRequest<Pinger_VerificationRequest>,
+            context: GRPCCore.ServerContext
+        ) async throws -> GRPCCore.StreamingServerResponse<Pinger_VerificationResponse>
+    }
+
+    /// Service protocol for the "pinger.Verification" service.
+    ///
+    /// This protocol is higher level than ``StreamingServiceProtocol`` but lower level than
+    /// the ``SimpleServiceProtocol``, it provides access to request and response metadata and
+    /// trailing response metadata. If you don't need these then consider using
+    /// the ``SimpleServiceProtocol``. If you need fine grained control over your RPCs then
+    /// use ``StreamingServiceProtocol``.
+    public protocol ServiceProtocol: Pinger_Verification.StreamingServiceProtocol {
+        /// Handle the "Verify" method.
+        ///
+        /// - Parameters:
+        ///   - request: A streaming request of `Pinger_VerificationRequest` messages.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        /// - Returns: A streaming response of `Pinger_VerificationResponse` messages.
+        func verify(
+            request: GRPCCore.StreamingServerRequest<Pinger_VerificationRequest>,
+            context: GRPCCore.ServerContext
+        ) async throws -> GRPCCore.StreamingServerResponse<Pinger_VerificationResponse>
+    }
+
+    /// Simple service protocol for the "pinger.Verification" service.
+    ///
+    /// This is the highest level protocol for the service. The API is the easiest to use but
+    /// doesn't provide access to request or response metadata. If you need access to these
+    /// then use ``ServiceProtocol`` instead.
+    public protocol SimpleServiceProtocol: Pinger_Verification.ServiceProtocol {
+        /// Handle the "Verify" method.
+        ///
+        /// - Parameters:
+        ///   - request: A stream of `Pinger_VerificationRequest` messages.
+        ///   - response: A response stream of `Pinger_VerificationResponse` messages.
+        ///   - context: Context providing information about the RPC.
+        /// - Throws: Any error which occurred during the processing of the request. Thrown errors
+        ///     of type `RPCError` are mapped to appropriate statuses. All other errors are converted
+        ///     to an internal error.
+        func verify(
+            request: GRPCCore.RPCAsyncSequence<Pinger_VerificationRequest, any Swift.Error>,
+            response: GRPCCore.RPCWriter<Pinger_VerificationResponse>,
+            context: GRPCCore.ServerContext
+        ) async throws
+    }
+}
+
+// Default implementation of 'registerMethods(with:)'.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_Verification.StreamingServiceProtocol {
+    public func registerMethods<Transport>(with router: inout GRPCCore.RPCRouter<Transport>) where Transport: GRPCCore.ServerTransport {
+        router.registerHandler(
+            forMethod: Pinger_Verification.Method.Verify.descriptor,
+            deserializer: GRPCProtobuf.ProtobufDeserializer<Pinger_VerificationRequest>(),
+            serializer: GRPCProtobuf.ProtobufSerializer<Pinger_VerificationResponse>(),
+            handler: { request, context in
+                try await self.verify(
+                    request: request,
+                    context: context
+                )
+            }
+        )
+    }
+}
+
+// Default implementation of streaming methods from 'StreamingServiceProtocol'.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_Verification.ServiceProtocol {
+}
+
+// Default implementation of methods from 'ServiceProtocol'.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_Verification.SimpleServiceProtocol {
+    public func verify(
+        request: GRPCCore.StreamingServerRequest<Pinger_VerificationRequest>,
+        context: GRPCCore.ServerContext
+    ) async throws -> GRPCCore.StreamingServerResponse<Pinger_VerificationResponse> {
+        return GRPCCore.StreamingServerResponse<Pinger_VerificationResponse>(
+            metadata: [:],
+            producer: { writer in
+                try await self.verify(
+                    request: request.messages,
+                    response: writer,
+                    context: context
+                )
+                return [:]
+            }
+        )
+    }
+}
+
+// MARK: pinger.Verification (client)
+
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_Verification {
+    /// Generated client protocol for the "pinger.Verification" service.
+    ///
+    /// You don't need to implement this protocol directly, use the generated
+    /// implementation, ``Client``.
+    public protocol ClientProtocol: Sendable {
+        /// Call the "Verify" method.
+        ///
+        /// - Parameters:
+        ///   - request: A streaming request producing `Pinger_VerificationRequest` messages.
+        ///   - serializer: A serializer for `Pinger_VerificationRequest` messages.
+        ///   - deserializer: A deserializer for `Pinger_VerificationResponse` messages.
+        ///   - options: Options to apply to this RPC.
+        ///   - handleResponse: A closure which handles the response, the result of which is
+        ///       returned to the caller. Returning from the closure will cancel the RPC if it
+        ///       hasn't already finished.
+        /// - Returns: The result of `handleResponse`.
+        func verify<Result>(
+            request: GRPCCore.StreamingClientRequest<Pinger_VerificationRequest>,
+            serializer: some GRPCCore.MessageSerializer<Pinger_VerificationRequest>,
+            deserializer: some GRPCCore.MessageDeserializer<Pinger_VerificationResponse>,
+            options: GRPCCore.CallOptions,
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Pinger_VerificationResponse>) async throws -> Result
+        ) async throws -> Result where Result: Sendable
+    }
+
+    /// Generated client for the "pinger.Verification" service.
+    ///
+    /// The ``Client`` provides an implementation of ``ClientProtocol`` which wraps
+    /// a `GRPCCore.GRPCCClient`. The underlying `GRPCClient` provides the long-lived
+    /// means of communication with the remote peer.
+    public struct Client<Transport>: ClientProtocol where Transport: GRPCCore.ClientTransport {
+        private let client: GRPCCore.GRPCClient<Transport>
+
+        /// Creates a new client wrapping the provided `GRPCCore.GRPCClient`.
+        ///
+        /// - Parameters:
+        ///   - client: A `GRPCCore.GRPCClient` providing a communication channel to the service.
+        public init(wrapping client: GRPCCore.GRPCClient<Transport>) {
+            self.client = client
+        }
+
+        /// Call the "Verify" method.
+        ///
+        /// - Parameters:
+        ///   - request: A streaming request producing `Pinger_VerificationRequest` messages.
+        ///   - serializer: A serializer for `Pinger_VerificationRequest` messages.
+        ///   - deserializer: A deserializer for `Pinger_VerificationResponse` messages.
+        ///   - options: Options to apply to this RPC.
+        ///   - handleResponse: A closure which handles the response, the result of which is
+        ///       returned to the caller. Returning from the closure will cancel the RPC if it
+        ///       hasn't already finished.
+        /// - Returns: The result of `handleResponse`.
+        public func verify<Result>(
+            request: GRPCCore.StreamingClientRequest<Pinger_VerificationRequest>,
+            serializer: some GRPCCore.MessageSerializer<Pinger_VerificationRequest>,
+            deserializer: some GRPCCore.MessageDeserializer<Pinger_VerificationResponse>,
+            options: GRPCCore.CallOptions = .defaults,
+            onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Pinger_VerificationResponse>) async throws -> Result
+        ) async throws -> Result where Result: Sendable {
+            try await self.client.bidirectionalStreaming(
+                request: request,
+                descriptor: Pinger_Verification.Method.Verify.descriptor,
+                serializer: serializer,
+                deserializer: deserializer,
+                options: options,
+                onResponse: handleResponse
+            )
+        }
+    }
+}
+
+// Helpers providing default arguments to 'ClientProtocol' methods.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_Verification.ClientProtocol {
+    /// Call the "Verify" method.
+    ///
+    /// - Parameters:
+    ///   - request: A streaming request producing `Pinger_VerificationRequest` messages.
+    ///   - options: Options to apply to this RPC.
+    ///   - handleResponse: A closure which handles the response, the result of which is
+    ///       returned to the caller. Returning from the closure will cancel the RPC if it
+    ///       hasn't already finished.
+    /// - Returns: The result of `handleResponse`.
+    public func verify<Result>(
+        request: GRPCCore.StreamingClientRequest<Pinger_VerificationRequest>,
+        options: GRPCCore.CallOptions = .defaults,
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Pinger_VerificationResponse>) async throws -> Result
+    ) async throws -> Result where Result: Sendable {
+        try await self.verify(
+            request: request,
+            serializer: GRPCProtobuf.ProtobufSerializer<Pinger_VerificationRequest>(),
+            deserializer: GRPCProtobuf.ProtobufDeserializer<Pinger_VerificationResponse>(),
+            options: options,
+            onResponse: handleResponse
+        )
+    }
+}
+
+// Helpers providing sugared APIs for 'ClientProtocol' methods.
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension Pinger_Verification.ClientProtocol {
+    /// Call the "Verify" method.
+    ///
+    /// - Parameters:
+    ///   - metadata: Additional metadata to send, defaults to empty.
+    ///   - options: Options to apply to this RPC, defaults to `.defaults`.
+    ///   - producer: A closure producing request messages to send to the server. The request
+    ///       stream is closed when the closure returns.
+    ///   - handleResponse: A closure which handles the response, the result of which is
+    ///       returned to the caller. Returning from the closure will cancel the RPC if it
+    ///       hasn't already finished.
+    /// - Returns: The result of `handleResponse`.
+    public func verify<Result>(
+        metadata: GRPCCore.Metadata = [:],
+        options: GRPCCore.CallOptions = .defaults,
+        requestProducer producer: @Sendable @escaping (GRPCCore.RPCWriter<Pinger_VerificationRequest>) async throws -> Void,
+        onResponse handleResponse: @Sendable @escaping (GRPCCore.StreamingClientResponse<Pinger_VerificationResponse>) async throws -> Result
+    ) async throws -> Result where Result: Sendable {
+        let request = GRPCCore.StreamingClientRequest<Pinger_VerificationRequest>(
+            metadata: metadata,
+            producer: producer
+        )
+        return try await self.verify(
+            request: request,
+            options: options,
+            onResponse: handleResponse
+        )
+    }
+}
