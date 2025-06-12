@@ -49,4 +49,8 @@ run_server:
 
 # send ping
 send_ping:
-	cd server && go run cmd/command.go
+	cd server/cmd && go run . -command ping
+
+# send ping with latency measurement
+measure_latency:
+	cd server/cmd && go run . -command latency
